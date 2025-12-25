@@ -10,14 +10,23 @@
       margin: 0;
       padding: 0;
       background: black;
+      width: 100%;
       height: 100%;
       overflow: hidden;
     }
 
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
     canvas {
-      display: block;
-      margin: 0 auto;
       background: black;
+      width: 100vw;
+      height: auto;
+      max-height: 100vh;
+      aspect-ratio: 9 / 16;
       touch-action: none;
     }
   </style>
@@ -31,12 +40,15 @@
   const canvas = document.getElementById("c");
   const ctx = canvas.getContext("2d");
 
-  // TikTok format
-  canvas.width = 1080;
-  canvas.height = 1920;
+  // LOGICZNA rozdzielczość TikTok
+  const LOGICAL_W = 1080;
+  const LOGICAL_H = 1920;
 
-  const W = canvas.width;
-  const H = canvas.height;
+  canvas.width = LOGICAL_W;
+  canvas.height = LOGICAL_H;
+
+  const W = LOGICAL_W;
+  const H = LOGICAL_H;
 
   const arena = {
     x: W / 2,
@@ -58,7 +70,7 @@
       this.vx = (Math.random() - 0.5) * 6;
       this.vy = 0;
 
-      this.life = Math.random() * 2000 + 2000; // 2–4s
+      this.life = Math.random() * 2000 + 2000;
       this.frozen = false;
     }
 
@@ -148,7 +160,6 @@
     last = t;
 
     ctx.clearRect(0, 0, W, H);
-
     drawArena();
 
     for (const b of balls) {
@@ -161,7 +172,7 @@
 
   function spawn() {
     balls.push(new Ball());
-    if (balls.length > 70) balls.shift(); // litość dla telefonu
+    if (balls.length > 70) balls.shift();
   }
 
   spawn();
